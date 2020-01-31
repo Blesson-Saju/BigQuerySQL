@@ -1,0 +1,191 @@
+
+(Q.1) Show the total count from the dataset with appropriate command?
+
+SELECT COUNT(unique_key)
+FROM `bigquery-public-data.austin_crime.crime` 
+
+f0_
+116674
+
+
+(Q.2)  From the baseball datasheet use left join and create a query?
+
+select 
+status.gameStatus,
+roll.attendance
+from `bigquery-public-data.baseball.games_post_wide` status
+LEFT JOIN `bigquery-public-data.baseball.games_wide` roll
+on ( status.year = roll.year)
+limit 5
+
+gameStatus	attendance
+closed	24678
+closed	24678
+closed	24678
+closed	24678
+closed	17685
+
+
+(Q.3) Show the two join tables using waste and diversion?
+
+select rep1.report_date, rep2.route_type
+from `bigquery-public-data.austin_waste.waste_and_diversion` as rep1
+join `bigquery-public-data.austin_waste.waste_and_diversion` as rep2
+on (rep1.report_date = rep2.report_date)
+limit 5
+
+report_date	route_type
+2009-08-07	RECYCLING - SINGLE STREAM
+2009-08-07	RECYCLING - SINGLE STREAM
+2009-08-07	RECYCLING - SINGLE STREAM
+2009-08-07	RECYCLING - SINGLE STREAM
+2009-08-07	RECYCLING - SINGLE STREAM
+ 
+
+(Q.4)  Use join three times and create a query?
+
+select rep1.report_date, rep2.route_type,rep3.route_number
+from `bigquery-public-data.austin_waste.waste_and_diversion` as rep1
+join `bigquery-public-data.austin_waste.waste_and_diversion` as rep2
+on (rep1.report_date = rep2.report_date)
+join `bigquery-public-data.austin_waste.waste_and_diversion`as rep3
+on ( rep2.route_type = rep3.route_type)
+limit 10
+
+report_date	route_type	route_number
+2009-08-07	RECYCLING - SINGLE STREAM	DF1
+2009-08-07	RECYCLING - SINGLE STREAM	DF1
+2009-08-07	RECYCLING - SINGLE STREAM	DF1
+2009-08-07	RECYCLING - SINGLE STREAM	DF1
+2009-08-07	RECYCLING - SINGLE STREAM	DF1
+2009-08-07	RECYCLING - SINGLE STREAM	DF1
+2009-08-07	RECYCLING - SINGLE STREAM	DF1
+2009-08-07	RECYCLING - SINGLE STREAM	DF1
+2009-08-07	RECYCLING - SINGLE STREAM	DF1
+2009-08-07	RECYCLING - SINGLE STREAM	DF1
+
+
+
+(Q.5)  Select 10 observations which have a description of length greater than 10?
+
+SELECT * FROM `bigquery-public-data.austin_crime.crime` 
+where LENGTH (ADDRESS) > 10
+LIMIT 10
+
+unique_key	address	census_tract	clearance_date	clearance_status	council_district_code	description	district	latitude	longitude	location	location_description	primary_type	timestamp	x_coordinate	y_coordinate	year	zipcode
+20168003819	"6TH STAustin, TX"					"THEFT FROM PERSON             "	UK				6TH ST	Theft	2016-08-16 00:00:00 UTC			2016	
+20165053882	"DELETEAustin, TX"					"AGG ROBBERY/DEADLY WEAPON     "	UK				DELETE	Robbery	2016-11-20 00:00:00 UTC			2016	
+20165028856	"COURT DRAustin, TX"					"THEFT                         "	UK				COURT DR	Theft	2016-07-13 00:00:00 UTC			2016	
+2016300353	"E 6TH STAustin, TX"		2016-02-08 00:00:00 UTC	Not cleared		"THEFT                         "	UK				E 6TH ST	Theft	2016-01-30 00:00:00 UTC			2016	
+20145022722	"UNKNOWNAustin, TXs"		2014-07-03 00:00:00 UTC	Not cleared		"AGG ROBBERY/DEADLY WEAPON     "	UK				UNKNOWN	Robbery	2014-05-21 00:00:00 UTC			2014	
+2014390620	"UNKNOWNAustin, TXs"		2014-02-19 00:00:00 UTC	Cleared by Exception		"AGG ASLT STRANGLE/SUFFOCATE   "	D				UNKNOWN	Aggravated Assault	2014-02-08 00:00:00 UTC	3108692	10053540	2014	
+20152902061	"BEN WHITEAustin, TX"		2015-10-22 00:00:00 UTC	Cleared by Exception		"AGG ASLT STRANGLE/SUFFOCATE   "	UK				BEN WHITE	Agg Assault	2015-10-18 00:00:00 UTC			2015	
+20155005182	"LOYOLA LNAustin, TX"		2015-02-17 00:00:00 UTC	Not cleared		"BURGLARY OF VEHICLE           "	UK				LOYOLA LN	Theft	2015-02-05 00:00:00 UTC			2015	
+2016740498	"840 CR 377Austin, TX"		2016-03-21 00:00:00 UTC	Not cleared		"AGG ASLT STRANGLE/SUFFOCATE   "	UK				840 CR 377	Agg Assault	2016-03-14 00:00:00 UTC			2016	
+20152010778	"3154 HWY 71Austin, TX"		2015-07-26 00:00:00 UTC	Not cleared		"AGG ASSAULT                   "	UK				3154 HWY 71	Agg Assault	2015-07-20 00:00:00 UTC			2015	
+
+
+
+
+
+(Q.6)  Select 20 adresses from Austin Crime which have recorded the least crimes?
+
+SELECT LOWER(address) AS address
+FROM `bigquery-public-data.austin_crime.crime` 
+LIMIT 20
+
+address
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+"austin, tx"
+
+
+
+(Q.7) Use upper description and obtain results using census tract?
+
+SELECT UPPER (description) AS description, census_tract AS frequency, district
+FROM `bigquery-public-data.austin_crime.crime` 
+ORDER BY frequency ASC
+LIMIT 6
+
+description	frequency	district
+"RAPE                          "		UK
+"RAPE                          "		UK
+"RAPE                          "		UK
+"AGG RAPE OF A CHILD           "		UK
+"RAPE OF A CHILD               "		UK
+"SEXUAL ASSAULT W/ OBJECT      "		UK
+
+
+
+(Q.8) Randomly select any 10 observations from public data set?
+
+SELECT * FROM `bigquery-public-data.austin_crime.crime` 
+LIMIT 10
+
+unique_key	address	census_tract	clearance_date	clearance_status	council_district_code	description	district	latitude	longitude	location	location_description	primary_type	timestamp	x_coordinate	y_coordinate	year	zipcode
+20165002898	"Austin, TX"		2016-03-14 00:00:00 UTC	Not cleared		"RAPE                          "	UK					Rape	2016-01-19 00:00:00 UTC			2016	
+20165004843	"Austin, TX"		2016-03-31 00:00:00 UTC	Not cleared		"RAPE                          "	UK					Rape	2016-01-25 00:00:00 UTC			2016	
+2016250988	"Austin, TX"		2016-09-16 00:00:00 UTC	Not cleared		"RAPE                          "	UK					Rape	2016-01-25 00:00:00 UTC			2016	
+20165003839	"Austin, TX"		2016-02-09 00:00:00 UTC	Not cleared		"AGG RAPE OF A CHILD           "	UK					Rape	2016-01-27 00:00:00 UTC			2016	
+2016321746	"Austin, TX"		2016-03-22 00:00:00 UTC	Not cleared		"RAPE OF A CHILD               "	UK					Rape	2016-02-01 00:00:00 UTC			2016	
+20165010113	"Austin, TX"		2016-04-12 00:00:00 UTC	Not cleared		"SEXUAL ASSAULT W/ OBJECT      "	UK					Rape	2016-02-25 00:00:00 UTC			2016	
+20165009799	"Austin, TX"		2016-03-24 00:00:00 UTC	Cleared by Exception		"RAPE OF A CHILD               "	UK					Rape	2016-03-07 00:00:00 UTC			2016	
+2016701037	"Austin, TX"		2016-05-04 00:00:00 UTC	Not cleared		"RAPE                          "	UK					Rape	2016-03-10 00:00:00 UTC			2016	
+2016771324	"Austin, TX"		2016-04-20 00:00:00 UTC	Not cleared		"RAPE                          "	UK					Rape	2016-03-17 00:00:00 UTC			2016	
+20165012445	"Austin, TX"		2016-05-20 00:00:00 UTC	Not cleared		"RAPE OF A CHILD               "	UK					Rape	2016-03-24 00:00:00 UTC			2016	
+
+
+
+(Q.9) Select data from district like UK?
+
+SELECT * FROM `bigquery-public-data.austin_crime.crime` 
+where district like '%UK%'
+LIMIT 6
+
+unique_key	address	census_tract	clearance_date	clearance_status	council_district_code	description	district	latitude	longitude	location	location_description	primary_type	timestamp	x_coordinate	y_coordinate	year	zipcode
+20165002898	"Austin, TX"		2016-03-14 00:00:00 UTC	Not cleared		"RAPE                          "	UK					Rape	2016-01-19 00:00:00 UTC			2016	
+20165004843	"Austin, TX"		2016-03-31 00:00:00 UTC	Not cleared		"RAPE                          "	UK					Rape	2016-01-25 00:00:00 UTC			2016	
+2016250988	"Austin, TX"		2016-09-16 00:00:00 UTC	Not cleared		"RAPE                          "	UK					Rape	2016-01-25 00:00:00 UTC			2016	
+20165003839	"Austin, TX"		2016-02-09 00:00:00 UTC	Not cleared		"AGG RAPE OF A CHILD           "	UK					Rape	2016-01-27 00:00:00 UTC			2016	
+2016321746	"Austin, TX"		2016-03-22 00:00:00 UTC	Not cleared		"RAPE OF A CHILD               "	UK					Rape	2016-02-01 00:00:00 UTC			2016	
+20165010113	"Austin, TX"		2016-04-12 00:00:00 UTC	Not cleared		"SEXUAL ASSAULT W/ OBJECT      "	UK					Rape	2016-02-25 00:00:00 UTC			2016	
+
+
+
+(Q.10)  Select maximum unique key data?
+
+SELECT MAX(unique_key)
+FROM `bigquery-public-data.austin_crime.crime` 
+LIMIT 10
+
+f0_
+2015153441365
+
+
+
+(Q.11)  select minimum unique key data?
+
+SELECT MIN(unique_key)
+FROM `bigquery-public-data.austin_crime.crime` 
+LIMIT 10
+
+f0_
+20142
